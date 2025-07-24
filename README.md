@@ -53,17 +53,3 @@ A simple tutorial app demonstrating how to implement biometric authentication us
 └── hooks/
     └── useColorScheme.ts    # Theme hook
 ```
-
-## Tutorial Content
-
-This app demonstrates:
-
-- Setting up Local Authentication
-- Checking biometric availability
-- Implementing authentication flow
-- Secure storage with Expo Secure Store
-- Clean component architecture
-- Complete login/logout flow
-- Simple UI design with black/white colors
-
-Perfect for a 7-10 minute tutorial video!
