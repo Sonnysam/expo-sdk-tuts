@@ -10,10 +10,10 @@ export function HomeScreen({ onLogout }: HomeScreenProps) {
     const handleLogout = async () => {
         try {
             await SecureStore.deleteItemAsync('auth_status');
-            console.log('🗑️ Cleared auth status from SecureStore');
+            console.log('Cleared auth');
             onLogout();
         } catch (error) {
-            console.log('Logout error:', error);
+            console.log('Error:', error);
         }
     };
 

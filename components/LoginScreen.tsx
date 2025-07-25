@@ -12,22 +12,22 @@ export function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        checkBiometricAvailability();
+        checkBiometric();
     }, []);
 
-    const checkBiometricAvailability = async () => {
+    const checkBiometric = async () => {
         try {
             const hasHardware = await LocalAuthentication.hasHardwareAsync();
             const isEnrolled = await LocalAuthentication.isEnrolledAsync();
             setIsBiometricAvailable(hasHardware && isEnrolled);
         } catch (error) {
-            console.log('Error checking biometric availability:', error);
+            console.log('Error:', error);
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleBiometricLogin = async () => {
+    const handleLogin = async () => {
         try {
             const result = await LocalAuthentication.authenticateAsync({
                 promptMessage: 'Login with biometrics',
@@ -36,14 +36,14 @@ export function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
 
             if (result.success) {
                 await SecureStore.setItemAsync('auth_status', 'authenticated');
-                console.log('💾 Stored auth status in SecureStore');
+                console.log('Stored auth');
                 onLoginSuccess();
             } else {
-                Alert.alert('Authentication Failed', 'Biometric authentication was cancelled or failed.');
+                Alert.alert('Failed', 'Authentication failed.');
             }
         } catch (error) {
-            console.log('Authentication error:', error);
-            Alert.alert('Error', 'An error occurred during authentication.');
+            console.log('Error:', error);
+            Alert.alert('Error', 'Authentication error.');
         }
     };
 
@@ -62,7 +62,7 @@ export function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
 
                 <TouchableOpacity
                     style={[styles.button, !isBiometricAvailable && styles.disabledButton]}
-                    onPress={handleBiometricLogin}
+                    onPress={handleLogin}
                     disabled={!isBiometricAvailable}
                 >
                     <Text style={styles.buttonText}>

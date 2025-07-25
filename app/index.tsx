@@ -9,26 +9,26 @@ export default function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        checkAuthStatus();
+        checkAuth();
     }, []);
 
-    const checkAuthStatus = async () => {
+    const checkAuth = async () => {
         try {
             const authStatus = await SecureStore.getItemAsync('auth_status');
-            console.log('🔍 Checking auth status:', authStatus);
+            console.log('Auth check:', authStatus);
             setIsAuthenticated(authStatus === 'authenticated');
         } catch (error) {
-            console.log('Error checking auth status:', error);
+            console.log('Error:', error);
         }
     };
 
-    const handleLoginSuccess = () => {
-        console.log('✅ Login successful - updating state');
+    const handleLogin = () => {
+        console.log('Login success');
         setIsAuthenticated(true);
     };
 
     const handleLogout = () => {
-        console.log('🚪 Logout - clearing state');
+        console.log('Logout');
         setIsAuthenticated(false);
     };
 
@@ -37,7 +37,7 @@ export default function App() {
             {isAuthenticated ? (
                 <HomeScreen onLogout={handleLogout} />
             ) : (
-                <LoginScreen onLoginSuccess={handleLoginSuccess} />
+                <LoginScreen onLoginSuccess={handleLogin} />
             )}
         </View>
     );
