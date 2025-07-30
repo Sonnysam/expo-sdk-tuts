@@ -1,50 +1,74 @@
-# Welcome to your Expo app 👋
+# Expo Networking Tutorial
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A simple React Native app demonstrating Expo's networking capabilities including online/offline detection, network status monitoring, and API calls.
 
-## Get started
+## Features Demonstrated
 
-1. Install dependencies
+### 🔌 Network Status Detection
 
-   ```bash
-   npm install
+- Real-time network connectivity monitoring
+- WiFi/Cellular connection type detection
+- Internet reachability checks
+- Visual network status indicators
+
+### 📡 API Integration
+
+- Fetch API calls with proper error handling
+- Loading states and user feedback
+- Network-aware request handling
+- Toast notifications for success/error states
+
+### 🎮 Interactive Controls
+
+- Manual network status checks
+- Simulate offline/online scenarios
+- Disabled buttons when offline
+- Real-time UI updates based on network state
+
+## Key Expo Networking Concepts
+
+1. **Network State Monitoring**
+
+   ```typescript
+   const networkState = await Network.getNetworkStateAsync();
    ```
 
-2. Start the app
+2. **Internet Reachability**
 
-   ```bash
-   npx expo start
+   ```typescript
+   const isReachable = networkState.isInternetReachable;
    ```
 
-In the output, you'll find options to open the app in a
+3. **Network-Aware API Calls**
+   ```typescript
+   if (!networkState.isConnected) {
+     showSonnyToast("No network connection");
+     return;
+   }
+   ```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## How to Use
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. **Check Network Status**: Tap "Check Network" to see current connectivity
+2. **Simulate Scenarios**: Use "Simulate Offline/Online" to test different states
+3. **Make API Calls**: Try fetching posts with different network conditions
+4. **Watch Toast Notifications**: See real-time feedback for all actions
 
-## Get a fresh project
+## Perfect for YouTube Tutorial
 
-When you're ready, run:
+This example is designed for a 5-minute tutorial covering:
+
+- ✅ Basic Expo networking setup
+- ✅ Network status detection
+- ✅ Online/offline handling
+- ✅ API calls with error handling
+- ✅ User feedback with toast notifications
+- ✅ Clean, readable code structure
+
+## Running the App
 
 ```bash
-npm run reset-project
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Then scan the QR code with Expo Go app or run on simulator.
