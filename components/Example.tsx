@@ -12,6 +12,7 @@ export default function Example() {
 
     useEffect(() => {
         checkNetworkStatus();
+        checkIPAddress();
     }, []);
 
     const checkNetworkStatus = async () => {
@@ -21,6 +22,11 @@ export default function Example() {
         } catch (err) {
             console.log('Network check failed', err);
         }
+    };
+
+    const checkIPAddress = async () => {
+        const ipAddress = await Network.getIpAddressAsync();
+        console.log('IP Address', ipAddress);
     };
 
     const fetchPosts = async () => {
