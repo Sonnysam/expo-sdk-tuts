@@ -11,7 +11,6 @@ export default function Contacts() {
     const findFriends = async () => {
         setLoading(true)
         try {
-            // Request permission and get contacts in one flow
             const { status } = await ExpoContacts.requestPermissionsAsync()
 
             if (status !== 'granted') {
