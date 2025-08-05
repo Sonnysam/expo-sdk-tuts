@@ -1,45 +1,22 @@
 import { Post } from '@/interfaces';
 import * as Network from 'expo-network';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { showSonnyToast } from './SonnyToast';
-
 
 export default function Example() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(false);
     const [isOnline, setIsOnline] = useState(true);
 
-    useEffect(() => {
-        checkNetworkStatus();
-        checkIPAddress();
-    }, []);
-
-    const checkNetworkStatus = async () => {
-        try {
-            const networkState = await Network.getNetworkStateAsync();
-            setIsOnline(networkState.isConnected ?? false);
-        } catch (err) {
-            console.log('Network check failed', err);
-        }
-    };
-
-    const checkIPAddress = async () => {
-        const ipAddress = await Network.getIpAddressAsync();
-        console.log('IP Address', ipAddress);
-    };
-
     const fetchPosts = async () => {
-        const networkState = await Network.getNetworkStateAsync();
-        if (!networkState.isConnected) {
+        if (!isOnline) {
             showSonnyToast('No internet connection');
-            setIsOnline(false);
             return;
         }
 
         setLoading(true);
-        setIsOnline(true);
-
+        setIsOnline(false);
         try {
             const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
             const data = await response.json();
@@ -53,18 +30,42 @@ export default function Example() {
         }
     };
 
+    useEffect(() => {
+        checkNetworkStatus();
+        checkIPAddress();
+    }, []);
+
+    const checkNetworkStatus = async () => {
+        try {
+            const networkState = await Network.getNetworkStateAsync();
+            setIsOnline(networkState.isConnected ?? false);
+        } catch (error) {
+            console.log('Network check failed', error);
+        }
+    }
+
+    const checkIPAddress = async () => {
+        try {
+            const ipAddress = await Network.getIpAddressAsync();
+            console.log('IP Address', ipAddress);
+        } catch (error: any) {
+            console.log('IP Address check failed', error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Expo Networking Tutorial</Text>
 
             <View style={styles.statusContainer}>
                 <Text style={styles.statusText}>
-                    Status: {isOnline ? '🟢 Online' : '🔴 Offline'}
+                    Network Status: {isOnline ? '🟢 Online' : '🔴 Offline'}
                 </Text>
             </View>
 
             <TouchableOpacity
-                style={[styles.button, !isOnline && styles.buttonDisabled]}
+                // style={[styles.button, !isOnline && styles.buttonDisabled]}
+                style={[styles.button]}
                 onPress={fetchPosts}
                 disabled={loading}
             >
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: '#fff',
-        paddingTop: 50,
+        paddingTop: Platform.OS === "ios" ? 60 : 0,
     },
     title: {
         fontSize: 24,
